@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Board;
+use App\Post;
 use Illuminate\Http\Request;
 
 class BoardController extends Controller
@@ -42,7 +43,9 @@ class BoardController extends Controller
     {
         $board = Board::where('hash', $hash)->first();
         return response()->json([
-            'name' => $board->name
+            'id' => $board->id,
+            'name' => $board->name,
+            'posts' => $board->posts
         ]);
     }
 
