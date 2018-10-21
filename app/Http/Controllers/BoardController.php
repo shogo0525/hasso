@@ -25,7 +25,11 @@ class BoardController extends Controller
      */
     public function store(Request $request)
     {
-        return Board::create($request->all());
+        $request["hash"] = sha1(uniqid(mt_rand(), true));
+        $board = Board::create($request->all());
+        return response()->json([
+            'hash' => $board->hash
+        ]);
     }
 
     /**
@@ -34,9 +38,12 @@ class BoardController extends Controller
      * @param  \App\Board  $board
      * @return \Illuminate\Http\Response
      */
-    public function show(Board $board)
+    public function show($hash)
     {
-        //
+        $board = Board::where('hash', $hash)->first();
+        return response()->json([
+            'name' => $board->name
+        ]);
     }
 
     /**

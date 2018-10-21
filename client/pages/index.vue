@@ -25,10 +25,11 @@ export default{
   },
   methods: {
     async createNewBoard() {
-      const board = await this.$axios.$post('http://localhost:8000/api/boards', {
+      const response = await this.$axios.$post('http://localhost:8000/api/boards', {
         name: this.board_name
       })
-      this.$router.push({ name: 'boards-id', params: { id: board.id }})
+      console.log(response)
+      this.$router.push({ name: 'boards-hash', params: { hash: response.hash }})
     }
   }
 }
