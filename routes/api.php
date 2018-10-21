@@ -18,4 +18,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 
-Route::get('/', function(){ return 'helloworld^^';});
+Route::get('/', function(){ return 'helloworldです！';});
+Route::post('boards', 'BoardController@store');
