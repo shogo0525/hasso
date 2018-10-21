@@ -125,7 +125,7 @@ export async function setContext(app, context) {
       payload: context.payload,
       error: context.error,
       base: '/',
-      env: {}
+      env: {"PUSHER_APP_KEY":"1e04d5d7235d8cfaaca6","PUSHER_APP_CLUSTER":"ap1"}
     }
     // Only set once
     if (context.req) app.context.req = context.req

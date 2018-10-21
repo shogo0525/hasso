@@ -21,6 +21,12 @@ export default{
   created() {
     this.getBoard()
   },
+  mounted() {
+    Echo.channel('board')
+    .listen('PostCreated', (e) => {
+      this.board.posts.push(e.post)
+    });
+  },
   methods: {
     async getBoard() {
       const response = await this.$axios.$get('http://localhost:8000/api/boards/' + this.$route.params.hash)
