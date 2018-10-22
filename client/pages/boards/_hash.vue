@@ -1,12 +1,45 @@
 <template>
   <div class="board">
     <h1>ボード名: {{ board.name }}</h1>
-    <input type="text" v-model="post_text">
-    <button @click="createNewPost">投稿</button>
+    <div v-show="false">
+      <v-text-field
+        class="input_board_name"
+        v-model="board.name"
+        label="ボード名"
+        outline
+      ></v-text-field>
+      <v-btn depressed small>変更</v-btn>
+    </div>
 
-    <ul>
-      <li v-for="post in board.posts" :key="post.id">{{ post.body }}</li>
-    </ul>
+    <div class="control">
+      <v-textarea
+        @keydown.shift.enter="createNewPost"
+        v-model="post_text"
+        rows="3"
+        label="アイデア・質問など"
+        outline
+      ></v-textarea>
+      <p>shift + enterで投稿</p>
+      <v-btn depressed small @click="createNewPost">投稿</v-btn>
+    </div>
+
+    <div>
+      <transition-group tag="ul" class="posts">
+        <li v-for="post in board.posts" :key="post.id">
+          <p>{{ post.body }}</p>
+          <v-btn class="deleteBtn"
+            fab small color="white">
+            <v-icon dark>remove</v-icon>
+          </v-btn>
+          <!-- <span class="likeBar" :style="{ height: (post.like * 5) + 'px' }"></span> -->
+          <v-btn class="likeBtn"
+            flat icon color="yellow">
+            <v-icon large>thumb_up</v-icon>
+            <span>0</span>
+          </v-btn>
+        </li>
+      </transition-group>
+    </div>
   </div>
 </template>
 
@@ -45,5 +78,75 @@ export default{
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.v-input {
+  width: 300px;
+  margin: 0 auto;
+}
+.input_board_name {
+  display: inline-block;
+}
+.control {
+  margin: 40px 0;
+  p {
+    margin-top: -25px;
+  }
+  .v-btn {
+    background: #eac545 !important;
+    color: white;
+  }
+}
+
+.posts {
+  display: flex;
+  flex-wrap: wrap;
+  .v-enter-active, .v-leave-active {
+    transition: all 0.5s;
+  }
+  .v-enter, .v-leave-to {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  li {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    background: #cbb994;
+    margin: 10px 15px;
+    list-style: none;
+    p {
+      position: absolute;
+      width: 100%;
+      top: 50%;
+      left: 50%;
+      -ms-transform: translate(-50%,-50%);
+      -webkit-transform : translate(-50%,-50%);
+      transform : translate(-50%,-50%);
+      text-align: center;
+      color: white;
+      font-weight: bold;
+    }
+    .deleteBtn {
+      position: absolute;
+      top: -20px;
+      right: -20px;
+    }
+    .likeBar {
+      display: block;
+      position: absolute;
+      bottom: 0px;
+      left: 0px;
+      width: 10px;
+      background: #eac545;
+    }
+    .likeBtn {
+      position: absolute;
+      top: 105px;
+      left: 95px;
+    }
+  }
+}
+</style>
 
 

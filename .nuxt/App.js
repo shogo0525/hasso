@@ -1,15 +1,19 @@
 import Vue from 'vue'
 import NuxtLoading from './components/nuxt-loading.vue'
 
+import '../node_modules/vuetify/dist/vuetify.css'
 
-import _6f6c098b from './layouts/default.vue'
+import '../node_modules/font-awesome/css/font-awesome.css'
+
+
+import _6f6c098b from '../client/layouts/default.vue'
 
 const layouts = { "_default": _6f6c098b }
 
 
 
 export default {
-  head: {"meta":[],"link":[],"style":[],"script":[]},
+  head: {"meta":[],"link":[{"rel":"stylesheet","type":"text\u002Fcss","href":"\u002F\u002Ffonts.googleapis.com\u002Fcss?family=Roboto:300,400,500,700|Material+Icons"}],"style":[],"script":[]},
   render(h, props) {
     const loadingEl = h('nuxt-loading', { ref: 'loading' })
     const layoutEl = h(this.layout || 'nuxt')
