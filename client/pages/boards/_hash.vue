@@ -21,23 +21,26 @@ export default{
   created() {
     this.getBoard()
   },
-  mounted() {
-    Echo.channel('board')
-    .listen('PostCreated', (e) => {
-      this.board.posts.push(e.post)
-    });
-  },
   methods: {
     async getBoard() {
       const response = await this.$axios.$get('http://localhost:8000/api/boards/' + this.$route.params.hash)
       this.board = response
+      this.listenChanel()
+    },
+    listenChanel() {
+      Echo.channel('board.' + this.board.id)
+        .listen('PostCreated', (e) => {
+          console.log('PostCreated', e)
+          this.board.posts.push(e.post)
+        });
     },
     async createNewPost() {
       const response = await this.$axios.$post('http://localhost:8000/api/posts', {
         board_id: this.board.id,
         body: this.post_text
       })
-      console.log(response)
+      this.post_text = ""
+      console.log('createNewPost', response)
     }
   }
 }

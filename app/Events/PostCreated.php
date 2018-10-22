@@ -34,6 +34,6 @@ class PostCreated implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('board');
+        return new Channel("board.{$this->post->board_id}");
     }
 }
