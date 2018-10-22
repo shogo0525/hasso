@@ -27,7 +27,7 @@
       <transition-group tag="ul" class="posts">
         <li v-for="post in board.posts" :key="post.id">
           <p>{{ post.body }}</p>
-          <v-btn class="deleteBtn"
+          <v-btn class="deleteBtn" @click="deletePost(post.id)"
             fab small color="white">
             <v-icon dark>remove</v-icon>
           </v-btn>
@@ -65,6 +65,10 @@ export default{
         .listen('PostCreated', (e) => {
           console.log('PostCreated', e)
           this.board.posts.push(e.post)
+        })
+        .listen('PostDeleted', (e) => {
+          console.log('PostDeleted', e)
+          this.board.posts = this.board.posts.filter(post => post.id != e.post_id)
         });
     },
     async createNewPost() {
@@ -74,6 +78,10 @@ export default{
       })
       this.post_text = ""
       console.log('createNewPost', response)
+    },
+    async deletePost(post_id) {
+      const response = await this.$axios.$delete('http://localhost:8000/api/posts/' + post_id)
+      console.log('deletePost', response)
     }
   }
 }

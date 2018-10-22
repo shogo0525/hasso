@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Post;
 use Illuminate\Http\Request;
 use App\Events\PostCreated;
+use App\Events\PostDeleted;
 
 class PostController extends Controller
 {
@@ -17,5 +18,14 @@ class PostController extends Controller
         return response()->json([
             'hash' => $board->hash
         ]);
+    }
+
+    public function destroy(Post $post)
+    {
+        $post_id = $post->id;
+        $board_id = $post->board->id;
+        $post->delete();
+        event(new PostDeleted($board_id, $post_id));
+        return 'post is deleted';
     }
 }
