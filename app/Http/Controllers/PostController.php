@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Post;
 use Illuminate\Http\Request;
 use App\Events\PostCreated;
+use App\Events\PostLiked;
 use App\Events\PostDeleted;
 
 class PostController extends Controller
@@ -18,6 +19,14 @@ class PostController extends Controller
         return response()->json([
             'hash' => $board->hash
         ]);
+    }
+
+    public function like(Post $post)
+    {
+        $post->like_count += 1;
+        $post->save();
+        event(new PostLiked($post->board_id, $post));
+        return 'post is liked';
     }
 
     public function destroy(Post $post)

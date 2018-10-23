@@ -24,4 +24,5 @@ Route::post('boards', 'BoardController@store');
 Route::get('boards/{hash}', 'BoardController@show');
 
 Route::post('posts', 'PostController@store');
+Route::get('posts/{post}/like', 'PostController@like');
 Route::delete('posts/{post}', 'PostController@destroy');

@@ -11,22 +11,22 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class PostDeleted implements ShouldBroadcast
+class PostLiked implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $board_id;
-    public $post_id;
+    public $post;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($board_id, $post_id)
+    public function __construct($board_id, $post)
     {
         $this->board_id = $board_id;
-        $this->post_id = $post_id;
+        $this->post = $post;
     }
 
     /**

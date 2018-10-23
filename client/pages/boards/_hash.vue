@@ -31,11 +31,11 @@
             fab small color="white">
             <v-icon dark>remove</v-icon>
           </v-btn>
-          <!-- <span class="likeBar" :style="{ height: (post.like * 5) + 'px' }"></span> -->
-          <v-btn class="likeBtn"
+          <span class="likeBar" :style="{ height: (post.like_count * 5) + 'px' }"></span>
+          <v-btn class="likeBtn" @click="likePost(post.id)"
             flat icon color="yellow">
             <v-icon large>thumb_up</v-icon>
-            <span>0</span>
+            <span>{{ post.like_count }}</span>
           </v-btn>
         </li>
       </transition-group>
@@ -66,6 +66,11 @@ export default{
           console.log('PostCreated', e)
           this.board.posts.push(e.post)
         })
+        .listen('PostLiked', (e) => {
+          console.log('PostLiked', e)
+          const post = this.board.posts.find(post => post.id == e.post.id)
+          post.like_count = e.post.like_count
+        })
         .listen('PostDeleted', (e) => {
           console.log('PostDeleted', e)
           this.board.posts = this.board.posts.filter(post => post.id != e.post_id)
@@ -78,6 +83,10 @@ export default{
       })
       this.post_text = ""
       console.log('createNewPost', response)
+    },
+    async likePost(post_id) {
+      const response = await this.$axios.$get('http://localhost:8000/api/posts/' + post_id + '/like')
+      console.log('likePost', response)
     },
     async deletePost(post_id) {
       const response = await this.$axios.$delete('http://localhost:8000/api/posts/' + post_id)

@@ -17,6 +17,7 @@ class CreatePostsTable extends Migration
             $table->increments('id');
             $table->integer('board_id')->unsigned();
             $table->text('body');
+            $table->integer('like_count')->default(0)->unsigned();
             $table->timestamps();
 
             $table->foreign('board_id')
